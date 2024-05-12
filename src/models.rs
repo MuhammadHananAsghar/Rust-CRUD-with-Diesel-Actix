@@ -9,8 +9,8 @@ pub struct User {
     pub created_at: String,
 }
 
-#[derive(Debug, Insertable)]
-#[table_name = "users"]
+#[derive(Debug, Insertable, AsChangeset)]
+#[diesel(table_name = users)]
 pub struct UserNew<'a>{
     pub name: &'a str,
     pub address: &'a str,

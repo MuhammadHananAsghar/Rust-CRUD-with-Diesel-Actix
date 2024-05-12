@@ -23,10 +23,13 @@ async fn main() -> std::io::Result<()>{
     HttpServer::new(move || {
         let database_pool = database_pool.clone();
         App::new()
-        .data(database_pool.clone())
+        .app_data(web::Data::new(database_pool.clone()))
         .route("/", web::get().to(routes::root))
         .route("/users", web::get().to(routes::get_users))
+        .route("/users/create", web::post().to(routes::create_user))
         .route("/users/{user_id}", web::get().to(routes::get_user_by_id))
+        .route("/users/delete/{user_id}", web::get().to(routes::delete_user_by_id))
+        .route("/users/update/{user_id}", web::post().to(routes::update_user_by_id))
     })
     .bind("localhost:8000")?
     .run()
